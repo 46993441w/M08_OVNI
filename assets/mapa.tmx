@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="60" tileheight="60">
+ <tileset firstgid="1" name="Background_low" tilewidth="60" tileheight="60">
+  <image source="Background_low.png" width="603" height="600"/>
+ </tileset>
+ <layer name="parets" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyNyjcWQFAABdEvp5aWlpaWlpZWTvtfg9mBN+fcbixjjA0HLjz4CBAiQozE/JciE74chfCVqISvRiN8LTrh6zEI34hJ+GYsWLFhx4ETF248ePEBmH4HGw==
+  </data>
+ </layer>
+ <layer name="fons" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyVyslKgmEAQNH/ASyHQHOCckhwSIXSUnAWMidwKH3/F+ksv6VdOLsbRbcX44574iRIkuIh+NJkeCRLjjwFisH3xDMlylSo8kIt+Oo0aNLilTYdusH3xjs9+nzwyYBh8I0YM2HKjDkLlsH3xYpv1mzYsmMffAeOnDjzwy8XrtH/+gPl+Qyh
+  </data>
+ </layer>
+</map>
