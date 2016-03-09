@@ -1,33 +1,24 @@
 /// <reference path="phaser/phaser.d.ts"/>
 
+import Point = Phaser.Point;
 class mainState extends Phaser.State {
     game: Phaser.Game;
 
     private ufo:Phaser.Sprite;
+    private pickups:Phaser.Group;
     private cursor:Phaser.CursorKeys;
     private parets:Phaser.TilemapLayer;
     private map:Phaser.Tilemap;
 
     private MAX_SPEED = 250; // pixels/second
     private ACCELERATION = 750; // pixels/second/second
-    private ROZAMIENTO = 300; // pixels/second/second
-    private UFO_SPEED = 200;
+    private ROZAMIENTO = 100; // pixels/second/second
 
     preload():void {
         super.preload();
 
         this.load.image('ufo', 'assets/UFO_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
-        //this.load.image('background', 'assets/Background_low.png');
-        //this.load.image('background00', 'assets/Background-0-0.png');
-        //this.load.image('background01', 'assets/Background-0-1.png');
-        //this.load.image('background02', 'assets/Background-0-2.png');
-        //this.load.image('background10', 'assets/Background-1-0.png');
-        //this.load.image('background11', 'assets/Background-1-1.png');
-        //this.load.image('background12', 'assets/Background-1-2.png');
-        //this.load.image('background20', 'assets/Background-2-0.png');
-        //this.load.image('background21', 'assets/Background-2-1.png');
-        //this.load.image('background22', 'assets/Background-2-2.png');
 
         this.game.load.tilemap('tilemap', 'assets/mapa.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('tiles', 'assets/Background_low.png');
@@ -40,23 +31,7 @@ class mainState extends Phaser.State {
 
         this.crearParets();
         this.crearJugador();
-
-        //this.walls = this.add.group();
-        //this.walls.enableBody = true;
-        //
-        //this.add.sprite(0, 0, 'background00');
-        //var wall_left = this.add.sprite(0, 61, 'background01', null, this.walls);
-        //this.add.sprite(0, wall_left.height + 61, 'background02');
-        //var wall_up = this.add.sprite(wall_left.width, 0, 'background10', null, this.walls);
-        //
-        //var center = this.add.sprite(wall_left.width, wall_up.height, 'background11', null);
-        //
-        //var wall_down = this.add.sprite(wall_left.width, wall_up.height + center.height, 'background12', null, this.walls);
-        //this.add.sprite(540, 0, 'background20');
-        //var wall_right = this.add.sprite(wall_left.width+center.width, wall_up.height, 'background21', null, this.walls);
-        //this.add.sprite(540, 535, 'background22');
-
-        //background = this.add.sprite(0, 0, 'background');
+        this.createPickup();
 
         this.cursor = this.input.keyboard.createCursorKeys();
     }
@@ -83,13 +58,41 @@ class mainState extends Phaser.State {
         this.ufo.body.bounce.setTo(0.7);
     }
 
+    private createPickup():void {
+        this.pickups = this.add.group();
+        this.pickups.enableBody = true;
+
+        var posicions = [ {x:300, y:95},
+            {x:190, y:135}, {x:410, y:135},
+            {x:120, y:200}, {x:480, y:200},
+            {x:95, y:300}, {x:505, y:300},
+            {x:120, y:405}, {x:480, y:405},
+            {x:190, y:465}, {x:410, y:465},
+            {x:300, y:505}
+        ];
+        for (var i = 0; i < posicions.length; i++) {
+            var posicio = posicions[i];
+            var pickup = new Pickup (this.game, posicio.x, posicio.y, 'pickup');
+
+            this.pickups.add(pickup);
+        }
+    }
+
     update():void {
         super.update();
 
         this.moureOVNI();
+        //this.mourePickup();
+
+        this.game.debug.body(this.pickups.getAt(0));
+        this.game.debug.body(this.ufo);
 
         this.physics.arcade.collide(this.ufo, this.parets);
-        //this.physics.arcade.overlap(this.ufo, this.pickups, this.getPickup, null, this);
+        this.physics.arcade.overlap(this.ufo, this.pickups, this.getPickup, null, this);
+    }
+
+    private getPickup(){
+        //alert("hola");
     }
 
     private moureOVNI(){
@@ -106,14 +109,25 @@ class mainState extends Phaser.State {
             this.ufo.body.acceleration.y = this.ACCELERATION;
         } else {
             this.ufo.body.acceleration.y = 0;
-            //this.ufo.body.velocity.y = 0;
-            //this.ufo.body.velocity.x = 0;
         }
 
         // fer que funcioni amb el ratolí
         /*if (this.input.activePointer.active) {
             this.ufo.rotation = this.physics.arcade.moveToPointer(this.ufo, 60, this.input.activePointer, 700);
         }*/
+    }
+}
+
+class Pickup extends Phaser.Sprite {
+
+    constructor(game:Phaser.Game, x:number, y:number, key:string|Phaser.RenderTexture|Phaser.BitmapData|PIXI.Texture) {
+        super(game, x, y, key);
+        this.anchor.setTo(0.5, 0.5);
+    }
+
+    update():void {
+        super.update();
+        this.angle += 5;
     }
 }
 
