@@ -95,21 +95,25 @@ class mainState extends Phaser.State {
     private moureOVNI(){
         if (this.cursor.left.isDown){
             this.ufo.body.acceleration.x = -this.ACCELERATION;
-        }else if (this.cursor.right.isDown){
+        } else if (this.cursor.right.isDown){
             this.ufo.body.acceleration.x = this.ACCELERATION;
-        }else {
+        } else {
             this.ufo.body.acceleration.x = 0;
-            //this.ufo.body.velocity.x = 0;
         }
-
         if (this.cursor.up.isDown){
             this.ufo.body.acceleration.y = -this.ACCELERATION;
-        }else if (this.cursor.down.isDown){
+        } else if (this.cursor.down.isDown){
             this.ufo.body.acceleration.y = this.ACCELERATION;
         } else {
             this.ufo.body.acceleration.y = 0;
             //this.ufo.body.velocity.y = 0;
+            //this.ufo.body.velocity.x = 0;
         }
+
+        // fer que funcioni amb el ratolí
+        /*if (this.input.activePointer.active) {
+            this.ufo.rotation = this.physics.arcade.moveToPointer(this.ufo, 60, this.input.activePointer, 700);
+        }*/
     }
 }
 

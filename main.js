@@ -93,6 +93,10 @@ var mainState = (function (_super) {
         else {
             this.ufo.body.acceleration.y = 0;
         }
+        // fer que funcioni amb el ratolí
+        /*if (this.input.activePointer.active) {
+            this.ufo.rotation = this.physics.arcade.moveToPointer(this.ufo, 60, this.input.activePointer, 700);
+        }*/
     };
     return mainState;
 })(Phaser.State);
